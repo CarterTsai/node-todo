@@ -17,11 +17,15 @@ app.configure(function() {
 	app.use(express.methodOverride()); 						// simulate DELETE and PUT
 });
 
-// load passport config
-// pass in passport and config variables
-var authFile = require('./config/auth.js');
-var authConfig = new authFile();
-require('./config/passport.js')(passport, authConfig);
+// passport config -----------------------------------
+
+	// load auth variables like clientID, clientSecret, and callbackURL
+	var authFile   = require('./config/secret.js'); 			// hidden for security purposes
+	// var authFile   = require('./config/auth.js'); 			// use this one for demo
+	var authConfig = new authFile();
+
+	// load passport config and pass in passport and authConfig
+	require('./config/passport.js')(passport, authConfig);
 
 // define model ================================================================
 var Todo = mongoose.model('Todo', {
@@ -49,7 +53,7 @@ var User = mongoose.model('User', {
 
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err)
-				res.send(err)
+				res.send(err);
 
 			res.json(todos); // return all todos in JSON format
 		});
@@ -69,7 +73,7 @@ var User = mongoose.model('User', {
 			// get and return all the todos after you create another
 			Todo.find(function(err, todos) {
 				if (err)
-					res.send(err)
+					res.send(err);
 				res.json(todos);
 			});
 		});
@@ -87,7 +91,7 @@ var User = mongoose.model('User', {
 			// get and return all the todos after you create another
 			Todo.find(function(err, todos) {
 				if (err)
-					res.send(err)
+					res.send(err);
 				res.json(todos);
 			});
 		});
