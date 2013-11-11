@@ -14,14 +14,15 @@
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.2/css/font-awesome.min.css"><!-- load font awesome -->
 
 	<style>
-		html 					{ overflow-y:scroll; }
-		body 					{ }
+		html 						{ overflow-y:scroll; }
+		body 						{ }
 
-		.navbar 				{ border-radius:0; -moz-border-radius:0; -webkit-border-radius:0; }
+		.navbar 					{ border-radius:0; -moz-border-radius:0; -webkit-border-radius:0; }
 
-		#todo-list 				{ margin-bottom:30px; }
-		#todo-form 	 			{ margin-bottom:50px; }
+		#todo-list 					{ margin-bottom:30px; }
+		#todo-form 	 				{ margin-bottom:50px; }
 
+		#user-signup span			{ color:#02D39B; }
 		#user-login span			{ color:#F0AD4E; }
 		#facebook-login span		{ color:#3971B6; }
 		#google-login span			{ color:#F74840; }
@@ -46,12 +47,13 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/"><span class="fa fa-check-square-o"></span> Todo-aholic</a>
+			<a class="navbar-brand" href="#"><span class="fa fa-check-square-o"></span> Todo-aholic</a>
 		</div>
 
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a id="user-login" href="#"><span class="fa fa-user"></span> Normal Signup/Login</a></li>
+				<li><a id="user-signup" href="#signup"><span class="fa fa-user"></span> Signup</a></li>
+				<li><a id="user-login" href="#login"><span class="fa fa-sign-in"></span> Login</a></li>
 				<li><a id="facebook-login" href="#"><span class="fa fa-facebook-square"></span> Facebook</a></a></li>
 				<li><a id="google-login" href="#"><span class="fa fa-google-plus-square"></span> Google+</a></a></li>
 			</ul>
