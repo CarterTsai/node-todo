@@ -90,14 +90,21 @@ var User = mongoose.model('User', {
 	});
 
 	// auth --------------------------------------------------------------------
-	app.get('/auth/facebook', passport.authenticate('facebook'));
-	app.get('/auth/facebook/callback', passport.authenticate('facebook'));
 
+	// local auth signup
 	app.post('/auth/login',
 		passport.authenticate('local'),
 		function(req, res) {
 			res.send(true)
 		});
+
+	// local auth login
+
+	// facebook login
+	app.get('/auth/facebook', passport.authenticate('facebook'));
+	app.get('/auth/facebook/callback', passport.authenticate('facebook'));
+
+	// google login
 
 	// application -------------------------------------------------------------
 	app.get('*', function(req, res) {
