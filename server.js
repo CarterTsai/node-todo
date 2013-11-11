@@ -2,6 +2,7 @@
 var express  = require('express');
 var app      = express(); 								// create our app w/ express
 var mongoose = require('mongoose'); 					// mongoose for mongodb
+var passport = require('passport');
 
 var port = process.env.PORT || 8080;
 
@@ -16,6 +17,9 @@ app.configure(function() {
 	app.use(express.methodOverride()); 						// simulate DELETE and PUT
 });
 
+// load passport config
+require('./config/passport.js');
+
 // define model ================================================================
 var Todo = mongoose.model('Todo', {
 	text : String,
@@ -27,7 +31,8 @@ var User = mongoose.model('User', {
 	name 		: String,
 	email 	 	: String,
 	password 	: String,
-	googleID 	: String
+	facebook 	: {},
+	google 		: {}
 });
 
 // routes ======================================================================
@@ -86,6 +91,13 @@ var User = mongoose.model('User', {
 	});
 
 	// auth --------------------------------------------------------------------
+	// app.post('')
+
+	app.post('/api/login',
+		passport.authenticate('local'),
+		function(req, res) {
+			res.send(true)
+		});
 
 	// application -------------------------------------------------------------
 	app.get('*', function(req, res) {
