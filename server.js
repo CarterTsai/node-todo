@@ -11,21 +11,13 @@ var port = process.env.PORT || 8080;
 mongoose.connect('mongodb://node:node@mongo.onmodulus.net:27017/uwO3mypu'); 	// connect to mongoDB database on modulus.io
 
 app.configure(function() {
-	app.use(express.static(__dirname + '/public')); 		// set the static files location /public/img will be /img for users
-	app.use(express.logger('dev')); 						// log every request to the console
-	app.use(express.bodyParser()); 							// pull information from html in POST
-	app.use(express.methodOverride()); 						// simulate DELETE and PUT
+	app.use(express.static(__dirname + '/public')); 	// set the static files location /public/img will be /img for users
+	app.use(express.logger('dev')); 					// log every request to the console
+	app.use(express.bodyParser()); 						// pull information from html in POST
+	app.use(express.methodOverride()); 					// simulate DELETE and PUT
 });
 
-// passport config -----------------------------------
-
-	// load auth variables like clientID, clientSecret, and callbackURL
-	var authFile   = require('./config/secret.js'); 			// hidden for security purposes
-	// var authFile   = require('./config/auth.js'); 			// use this one for demo
-	var authConfig = new authFile();
-
-	// load passport config and pass in passport and authConfig
-	require('./config/passport.js')(passport, authConfig);
+require('./config/passport.js')(passport); 				// load passport config and pass in passport
 
 // define model ================================================================
 var Todo = mongoose.model('Todo', {
@@ -98,9 +90,10 @@ var User = mongoose.model('User', {
 	});
 
 	// auth --------------------------------------------------------------------
-	// app.post('')
+	app.get('/auth/facebook', passport.authenticate('facebook'));
+	app.get('/auth/facebook/callback', passport.authenticate('facebook'));
 
-	app.post('/api/login',
+	app.post('/auth/login',
 		passport.authenticate('local'),
 		function(req, res) {
 			res.send(true)

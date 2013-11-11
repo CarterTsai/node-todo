@@ -2,7 +2,14 @@ var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook');
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
-module.exports = function(passport, authConfig) {
+// load auth variables like clientID, clientSecret, and callbackURL
+
+	var authFile   = require('./secret.js'); 	// hidden for security purposes
+	// var authFile   = require('./auth.js'); 	// use this one for demo
+
+	var authConfig = new authFile();
+
+module.exports = function(passport) {
 
 	// configuration for local authentication
 	passport.use(new LocalStrategy(
