@@ -18,7 +18,7 @@ app.configure(function() {
 });
 
 // load passport config
-// pass in passport and config
+// pass in passport and config variables
 var authFile = require('./config/auth.js');
 var authConfig = new authFile();
 require('./config/passport.js')(passport, authConfig);
