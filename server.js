@@ -2,7 +2,7 @@
 var express  = require('express');
 var app      = express(); 								// create our app w/ express
 var mongoose = require('mongoose'); 					// mongoose for mongodb
-var passport = require('passport');
+var passport = require('passport'); 					// passport for authentication
 
 var port = process.env.PORT || 8080;
 
@@ -18,7 +18,10 @@ app.configure(function() {
 });
 
 // load passport config
-require('./config/passport.js');
+// pass in passport and config
+var authFile = require('./config/auth.js');
+var authConfig = new authFile();
+require('./config/passport.js')(passport, authConfig);
 
 // define model ================================================================
 var Todo = mongoose.model('Todo', {
