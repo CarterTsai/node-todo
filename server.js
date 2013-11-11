@@ -22,6 +22,14 @@ var Todo = mongoose.model('Todo', {
 	done : Boolean
 });
 
+// model for users
+var User = mongoose.model('User', {
+	name 		: String,
+	email 	 	: String,
+	password 	: String,
+	googleID 	: String
+});
+
 // routes ======================================================================
 
 	// api ---------------------------------------------------------------------
@@ -76,6 +84,8 @@ var Todo = mongoose.model('Todo', {
 			});
 		});
 	});
+
+	// auth --------------------------------------------------------------------
 
 	// application -------------------------------------------------------------
 	app.get('*', function(req, res) {
