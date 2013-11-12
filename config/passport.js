@@ -1,6 +1,7 @@
 var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook');
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+// var User = require('./models/user.js');
 
 // load auth variables like clientID, clientSecret, and callbackURL
 
@@ -9,7 +10,7 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 
 	var authConfig = new authFile();
 
-module.exports = function(passport) {
+module.exports = function(passport, User) {
 
 	// configuration for local authentication
 	passport.use(new LocalStrategy(
@@ -41,7 +42,7 @@ module.exports = function(passport) {
 			callbackURL 	: authConfig.facebook.callbackURL
 		},
 		function(accessToken, refreshToken, profile, done) {
-			User.findOrCreate({ 'facebook.id' : profile.id }, function(err, user) {
+			User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
 				if (err)
 					return done(err);
 
@@ -55,7 +56,7 @@ module.exports = function(passport) {
 			clientSecret 	: authConfig.google.clientSecret,
 			callbackURL 	: authConfig.google.callbackURL
 		}, function(accessToken, refreshToken, profile, done) {
-			User.findOrCreate({ 'google.id' : profile.id }, function(err, user) {
+			User.findOne({ 'google.id' : profile.id }, function(err, user) {
 				if (err)
 					return done(err);
 
