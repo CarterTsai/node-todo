@@ -1,4 +1,7 @@
-module.exports = function(app, passport, User, Todo) {
+var Todo = require('./models/todo');
+var User = require('./models/user');
+
+module.exports = function(app, passport) {
 
 	// -------------------------------------------------------------------------
 	// API ROUTES --------------------------------------------------------------
@@ -78,8 +81,6 @@ module.exports = function(app, passport, User, Todo) {
 	app.get('/auth/facebook/callback', passport.authenticate('facebook', {
 		successRedirect: '/#/todos',
 		failureRedirect: '/#/login'
-	}, function(req, res) {
-		console.log('hello');
 	}));
 
 	// google login
