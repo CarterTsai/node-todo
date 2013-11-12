@@ -62,6 +62,10 @@ module.exports = function(app, passport) {
 	// AUTH ROUTES -------------------------------------------------------------
 	// -------------------------------------------------------------------------
 
+	// auth for getting user
+
+	// auth to check if logged in
+
 	// process the signup form (return JSON)
 	app.post('/auth/signup',
 		passport.authenticate('local'),
