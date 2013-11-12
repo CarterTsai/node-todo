@@ -4,9 +4,8 @@ var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 var User 			 = require('../models/user.js');
 
 // load auth variables (clientID, clientSecret, and callbackURL)
-
-	var authConfig   = require('./secret.js'); 		// hidden for security purposes
-	// var authConfig   = require('./auth.js'); 	// use this one for demo
+var authConfig   = require('./secret.js'); 		// hidden for security purposes
+// var authConfig   = require('./auth.js'); 	// use this one for demo
 
 module.exports = function(passport) {
 
@@ -40,7 +39,7 @@ module.exports = function(passport) {
 			callbackURL 	: authConfig.facebook.callbackURL
 		},
 		function(accessToken, refreshToken, profile, done) {
-			User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
+			User.findOrCreate({ 'facebook.id' : profile.id }, function(err, user) {
 				if (err)
 					return done(err);
 
@@ -54,7 +53,7 @@ module.exports = function(passport) {
 			clientSecret 	: authConfig.google.clientSecret,
 			callbackURL 	: authConfig.google.callbackURL
 		}, function(accessToken, refreshToken, profile, done) {
-			User.findOne({ 'google.id' : profile.id }, function(err, user) {
+			User.findOrCreate({ 'google.id' : profile.id }, function(err, user) {
 				if (err)
 					return done(err);
 
