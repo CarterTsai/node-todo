@@ -1,13 +1,12 @@
 var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook');
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
-var User 			 = require('../models/user.js');
 
 // load auth variables (clientID, clientSecret, and callbackURL)
 var authConfig   = require('./secret.js'); 		// hidden for security purposes
 // var authConfig   = require('./auth.js'); 	// use this one for demo
 
-module.exports = function(passport) {
+module.exports = function(passport, User) {
 
 	passport.serializeUser(function(user, done) {
 		done(null, user.id);
