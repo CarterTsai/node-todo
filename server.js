@@ -6,10 +6,6 @@ var passport = require('passport'); 					// passport for authentication
 
 var port = process.env.PORT || 8080;
 
-// define model ================================================================
-var Todo = require('./models/todo.js');
-var User = require('./models/user.js');
-
 // configuration ===============================================================
 mongoose.connect('mongodb://node:node@mongo.onmodulus.net:27017/uwO3mypu'); 	// connect to mongoDB database on modulus.io
 
@@ -20,7 +16,11 @@ app.configure(function() {
 	app.use(express.methodOverride()); 					// simulate DELETE and PUT
 });
 
-require('./config/passport.js')(passport, User); 				// load passport config and pass in passport
+require('./config/passport.js')(passport); 				// load passport config and pass in passport
+
+// define model ================================================================
+var Todo = require('./models/todo.js');
+var User = require('./models/user.js');
 
 // routes ======================================================================
 
