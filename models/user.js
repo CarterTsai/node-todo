@@ -5,7 +5,9 @@ var User = mongoose.model('User', {
 	name 		: String,
 	email 	 	: String,
 	password 	: String,
-	facebook 	: {},
+	facebook 	: {
+		id 		: String
+	},
 	google 		: {}
 });
 

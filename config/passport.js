@@ -9,6 +9,16 @@ var authConfig   = require('./secret.js'); 		// hidden for security purposes
 
 module.exports = function(passport) {
 
+	passport.serializeUser(function(user, done) {
+		done(null, user.id);
+	});
+
+	passport.deserializeUser(function(id, done) {
+		User.findById(id, function(err, user) {
+			done(err, user);
+		});
+	});
+
 	// configuration for local authentication
 	passport.use(new LocalStrategy(
 		function(email, password, done) {
@@ -33,17 +43,31 @@ module.exports = function(passport) {
 	));
 
 	// configuration for facebook authentication
+	// find and return or create a user
 	passport.use(new FacebookStrategy({
 			clientID 		: authConfig.facebook.clientID,
 			clientSecret 	: authConfig.facebook.clientSecret,
 			callbackURL 	: authConfig.facebook.callbackURL
 		},
 		function(accessToken, refreshToken, profile, done) {
-			User.findOrCreate({ 'facebook.id' : profile.id }, function(err, user) {
+			User.findOne({ 'facebook.id' : profile.id }, function(err, user) {
 				if (err)
 					return done(err);
 
-				return done(null, user);
+				// if no user is found, create one
+				if (!user) {
+					var newUser         = new User();
+					newUser.name        = profile.name.givenName
+					newUser.facebook.id = profile.id
+
+					// save the new user
+					newUser.save(function(err) {
+
+						return done(null, newUser);
+					});
+				} else {
+					return done(null, user);
+				}
 			});
 		}
 	));
@@ -53,7 +77,7 @@ module.exports = function(passport) {
 			clientSecret 	: authConfig.google.clientSecret,
 			callbackURL 	: authConfig.google.callbackURL
 		}, function(accessToken, refreshToken, profile, done) {
-			User.findOrCreate({ 'google.id' : profile.id }, function(err, user) {
+			User.findOne({ 'google.id' : profile.id }, function(err, user) {
 				if (err)
 					return done(err);
 
