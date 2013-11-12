@@ -8,10 +8,6 @@ var passport = require('passport'); 					// passport for authentication
 
 var port = process.env.PORT || 8080;
 
-/* models */
-var Todo = require('./app/models/todo');
-var User = require('./app/models/user');
-
 // =============================================================================
 // configuration ===============================================================
 // =============================================================================
@@ -32,12 +28,12 @@ app.configure(function() {
 	app.use(passport.session());
 });
 
-var auth = require('./config/passport')(passport, User); 	// load passport config and pass in passport and User
+var auth = require('./config/passport')(passport); 	// load passport config and pass in passport
 
 // =============================================================================
 // routes ======================================================================
 // =============================================================================
-require('./app/routes')(app, passport, User, Todo);
+require('./app/routes')(app, passport);
 
 // =============================================================================
 // listen (start app with node server.js) ======================================

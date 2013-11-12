@@ -3,23 +3,24 @@ module.exports = function(app, passport, User, Todo) {
 	// -------------------------------------------------------------------------
 	// API ROUTES --------------------------------------------------------------
 	// -------------------------------------------------------------------------
-	// get all todos
-	app.get('/api/todos', function(req, res) {
 
+	/**
+	 * Get all Todos
+	 */
+	app.get('/api/todos', function(req, res) {
 		// use mongoose to get all todos in the database
 		Todo.find(function(err, todos) {
-
 			// if there is an error retrieving, send the error. nothing after res.send(err) will execute
 			if (err)
 				res.send(err);
-
 			res.json(todos); // return all todos in JSON format
 		});
 	});
 
-	// create todo and send back all todos after creation
+	/**
+	 * Create a todo and send back all todos
+	 */
 	app.post('/api/todos', function(req, res) {
-
 		// create a todo, information comes from AJAX request from Angular
 		Todo.create({
 			text : req.body.text,
@@ -27,7 +28,6 @@ module.exports = function(app, passport, User, Todo) {
 		}, function(err, todo) {
 			if (err)
 				res.send(err);
-
 			// get and return all the todos after you create another
 			Todo.find(function(err, todos) {
 				if (err)
@@ -35,17 +35,17 @@ module.exports = function(app, passport, User, Todo) {
 				res.json(todos);
 			});
 		});
-
 	});
 
-	// delete a todo
+	/**
+	 * Delete a todo
+	 */
 	app.delete('/api/todos/:todo_id', function(req, res) {
 		Todo.remove({
 			_id : req.params.todo_id
 		}, function(err, todo) {
 			if (err)
 				res.send(err);
-
 			// get and return all the todos after you create another
 			Todo.find(function(err, todos) {
 				if (err)
@@ -59,25 +59,19 @@ module.exports = function(app, passport, User, Todo) {
 	// AUTH ROUTES -------------------------------------------------------------
 	// -------------------------------------------------------------------------
 
-	// local auth signup
-		// showing the view handled by angular frontend
+	// process the signup form (return JSON)
+	app.post('/auth/signup',
+		passport.authenticate('local'),
+		function(req, res) {
+			res.send(true)
+		});
 
-		// process the signup form (return JSON)
-		app.post('/auth/signup',
-			passport.authenticate('local'),
-			function(req, res) {
-				res.send(true)
-			});
-
-	// local auth login
-		// showing the view handled by angular frontend
-
-		// process the signup form (return JSON)
-		app.post('/auth/signup',
-			passport.authenticate('local'),
-			function(req, res) {
-				res.send(true)
-			});
+	// process the login form (return JSON)
+	app.post('/auth/signup',
+		passport.authenticate('local'),
+		function(req, res) {
+			res.send(true)
+		});
 
 	// facebook login
 	app.get('/auth/facebook', passport.authenticate('facebook'));
